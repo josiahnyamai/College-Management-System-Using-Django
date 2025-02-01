@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ course.name }} - Students</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin: 20px 0;
+            font-size: 24px;
+        }
+        h3 {
+            color: #333;
+            font-size: 20px;
+        }
+        .course-details {
+            background-color: white;
+            margin: 20px auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 900px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .student-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        .student-list li {
+            background-color: #f8f9fa;
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .student-list li:nth-child(even) {
+            background-color: #e9ecef;
+        }
+        .back-button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Students enrolled in {{ course.name }}</h1>
+    </header>
+
+    <div class="course-details">
+        <h3>School: {{ course.school.name }}</h3>
+
+        <h4>Students:</h4>
+        <ul class="student-list">
+            {% for student in students %}
+                <li>
+                    <span>{{ student.name }}</span>
+                    <span>{{ student.registration_no }}</span>
+                </li>
+            {% empty %}
+                <li>No students enrolled in this course yet.</li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'course_list' %}" class="back-button">Back to Courses</a>
+    </div>
+</body>
+</html>

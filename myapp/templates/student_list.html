@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1e3a8a; /* Solid Blue color */
+            font-size: 2.5em;
+            padding: 10px;
+            background-color: #1e3a8a; /* Solid blue background */
+            color: white; /* White text */
+            margin-top: 20px;
+            text-transform: uppercase;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #ffffff;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #2563eb; /* Blue background */
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+
+        td {
+            padding: 8px;
+            text-align: left;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e0f7fa;
+        }
+
+        a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .actions {
+            margin-top: 10px;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            font-size: 12px;
+            color: white;
+            background-color: #1e3a8a; /* Blue background */
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #2563eb; /* Lighter blue on hover */
+        }
+
+        /* Specific button styles for actions (Edit and Delete) */
+        .btn-edit {
+            background-color: #4CAF50; /* Green background */
+        }
+
+        .btn-edit:hover {
+            background-color: #45a049; /* Slightly darker green on hover */
+        }
+
+        .btn-delete {
+            background-color: #f44336; /* Red background */
+        }
+
+        .btn-delete:hover {
+            background-color: #e53935; /* Slightly darker red on hover */
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Student List</h2>
+
+    <a href="{% url 'student_add' %}" class="btn">Add New Student</a>
+    <table>
+        <tr>
+            <th>Registration No</th>
+            <th>Name</th>
+            <th>Year</th>
+            <th>Course</th>
+            <th>School</th>  <!-- Changed Grade to School -->
+            <th>Actions</th>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.registration_no }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.year }}</td>
+            <td>
+                {% if student.courses.all %}
+                    {% for course in student.courses.all %}
+                        <span>{{ course.name }}</span><br>
+                    {% endfor %}
+                {% else %}
+                    <span>No courses assigned</span>
+                {% endif %}
+            </td>
+            <td>{{ student.get_school_display }}</td>  <!-- Fetches the readable school name -->
+            <td class="actions">
+                <a href="{% url 'student_update' student.id %}" class="btn btn-edit">Edit</a> | 
+                <a href="{% url 'student_delete' student.id %}" class="btn btn-delete">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <a href="{% url 'dashboard' %}">Back to Dashboard</a><br><br>
+    <a href="{% url 'logout' %}">LOG OUT</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Course Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7fc;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .school {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-bottom: 2px solid #007bff;
+        }
+
+        .school h2 {
+            color: #007bff;
+        }
+
+        .course-list {
+            padding-left: 20px;
+        }
+
+        .add-button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .add-button:hover {
+            background-color: #0056b3;
+        }
+
+        .course-item {
+            padding: 5px;
+            background-color: #f0f8ff;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .course-item a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .course-item a:hover {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SCHOOL OF:</h1>
+
+        {% if schools %}
+            {% for school in schools %}
+                <div class="school">
+                    <h2>{{ school.name }}</h2>
+                    <a class="add-button" href="{% url 'add_course' school.id %}">Add Course to {{ school.name }}</a>
+
+                    <ul class="course-list">
+                        {% for course in school.courses.all %}
+                            <li class="course-item">
+                                <a href="{% url 'course_detail' course.id %}">{{ course.name }}</a>
+                            </li>
+                        {% empty %}
+                            <li>No courses available for this school.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No schools found.</p>
+        {% endif %}
+        
+        <br>
+        <a href="{% url 'dashboard' %}">BACK</a><br><br>
+        <a href="{% url 'logout' %}">LOG OUT</a>
+    </div>
+</body>
+</html>
